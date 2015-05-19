@@ -30,7 +30,6 @@ import com.Gamesareme.TCO.screens.WinScreen;
 
 /**
  * @author Oliver
- * 
  */
 public class Game extends Canvas implements Runnable {
 
