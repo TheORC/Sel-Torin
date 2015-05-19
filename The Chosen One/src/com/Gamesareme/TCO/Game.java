@@ -33,16 +33,42 @@ import com.Gamesareme.TCO.screens.WinScreen;
  */
 public class Game extends Canvas implements Runnable {
 
-	private static final long serialVersionUID = -590962872869808290L; // My games serial // version.
+	private static final long serialVersionUID = -590962872869808290L; // My games serial // version
+	
+	/*
+	 * Creat the instance of the game
+	 */
+	public static Game game = new Game();  //The instance of our game that we will be using
 
+	/*
+	 * Set the windows size
+	 */
 	public static final int WIDTH = 640; // 640
 	public static final int HEIGHT = WIDTH / 4 * 3;
+	
+	/*
+	 * Set the windows name
+	 */
 	public static final String TITLE = "Sel Torin";
 	
+	/*
+	 * The state the game is in e.g. loading, menu, in-game
+	 */
 	public static GameState state = GameState.LOADING;
 
+	/*
+	 * Is the game running?
+	 */
 	private boolean running = false;
+	
+	/*
+	 * The thread controlling the game 
+	 */
 	private Thread thread;
+	
+	/*
+	 * These are all the script refrences created on start up
+	 */
 	public static Menu menu;
 	public static Levels levels;
 	public static WinScreen winScreen;
@@ -51,16 +77,30 @@ public class Game extends Canvas implements Runnable {
 	public static GameOverScreen gameOverScreen;
 	public static Notifications notifications;
 	
+	/*
+	 * Create the book in the game.
+	 */
 	public static Book book = new Book();
-	public static Game game = new Game();  //The instance of our game that we will be using
 	
+	/*
+	 * Create the loading screen
+	 */
 	public GameLoadScreen loadScreen = new GameLoadScreen(this);
+	
+	/*
+	 * Load all the block types
+	 */
 	public BlockType bt = new BlockType();
 	
+	/*
+	 * Create a variable to store the rain when it is created
+	 */
 	public RainEffect rain;
 	
-	//This is the first thing that will run in this game.
-	//This is used to set up the screen, and the variabls.
+	/*
+	 * This is the first thing that will run in this game.
+	 * This is used to set up the screen, and the variabls.
+	 */
 	public static void main(String args[]) {	
 		//Create a game class.
 		Game game = new Game();
@@ -78,10 +118,16 @@ public class Game extends Canvas implements Runnable {
         return game;
     }
     
+    /*
+     * @return the menu instance
+     */
     public Menu getMenu(){
         return menu;
     }
 
+    /*
+     * The tick methods is used to give the game its logic
+     */
 	public void tick() {
 		if (state == GameState.LOADING){
 			loadScreen.tick();
@@ -101,6 +147,10 @@ public class Game extends Canvas implements Runnable {
 		}
 	}
 
+	/*
+	 * The render methods rederns the window 
+	 * and every thing located inside the game
+	 */
 	public void render() {
 		BufferStrategy bs = this.getBufferStrategy();
 		if (bs == null) {
@@ -149,6 +199,13 @@ public class Game extends Canvas implements Runnable {
 		bs.show(); // Shows whatever graphics were just disposed of
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Runnable#run()
+	 * 
+	 * This is the thread.  It gives the game its ticks
+	 * 
+	 */
 	@Override
 	public void run() {
 		requestFocus();
@@ -183,6 +240,9 @@ public class Game extends Canvas implements Runnable {
 		stop();
 	}
 
+	/*
+	 * Starts the thread
+	 */
 	private synchronized void start() {
 		if (running)
 			return;
@@ -191,6 +251,9 @@ public class Game extends Canvas implements Runnable {
 		thread.start();
 	}
 
+	/*
+	 * Stops the thread
+	 */
 	private synchronized void stop() {
 		if (!running)
 			return;
@@ -205,10 +268,16 @@ public class Game extends Canvas implements Runnable {
 		System.exit(0);
 	}
 
+	/*
+	 * Cleans up the graphics
+	 */
 	private static void cleanUp() {
 		AL.destroy();
 	}
 
+	/*
+	 * This is used to exit the game
+	 */
 	public static void exit() {
 		cleanUp();
 		System.exit(0);
